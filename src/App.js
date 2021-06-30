@@ -11,6 +11,8 @@ import BlogDetail from "./Pages/BlogDetail";
 import ProductDetails from "./Pages/ProductDetails";
 import Checkout from "./Pages/Checkout";
 import Contact from "./Pages/Contact";
+import Login from "./Components/Login";
+import Reg from "./Components/Reg";
 
 export default function App() {
   return (
@@ -30,6 +32,8 @@ export default function App() {
           />
           <Route path="/checkout" exact component={() => <Checkout />} />
           <Route path="/Contact" exact component={() => <Contact />} />
+          <Route path="/login" exact component={() => <Login />} />
+          <Route path="/reg" exact component={() => <Reg />} />
         </Switch>
         <Footer />
       </Router>

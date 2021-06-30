@@ -1,6 +1,45 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 export const Shop = () => {
+  const [products, setProducts] = useState([]);
+  const [hasError, setError] = useState(false);
+  async function fetchData() {
+    const res = await fetch("http://localhost:44344/api/");
+    res
+      .json()
+      .then((res) => {
+        console.log(res.data);
+        setProducts(res.data);
+      })
+      .catch((error) => {
+        setError(error);
+      });
+  }
+  async function addToCart(id, quantity) {
+    try {
+      const response = await fetch("http://localhost:44344/api/orders/create", {
+        method: "POST",
+        body: JSON.stringify({
+          productId: id,
+          quantity: quantity,
+        }),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+      });
+      let data = await response.json();
+      alert("Item Added To Cart");
+      console.log(data);
+    } catch (err) {
+      alert("Something Went Wrong");
+      console.log(err);
+    }
+  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+  console.log(products);
+
   return (
     <div>
       <div className="breadcrumb-option">
@@ -327,46 +366,54 @@ export const Shop = () => {
             </div>
             <div className="col-lg-9 col-md-9">
               <div className="row">
-                <div className="col-lg-4 col-md-6">
-                  <div className="product__item">
-                    <div
-                      className="product__item__pic set-bg"
-                      data-setbg="img/shop/shop-1.jpg"
-                    >
-                      <div className="label new">New</div>
-                      <ul className="product__hover">
-                        <li>
-                          <a href="img/shop/shop-1.jpg" className="image-popup">
-                            <span className="arrow_expand" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <span className="icon_heart_alt" />
-                          </a>
-                        </li>
-                        <li>
-                          <a href="#">
-                            <span className="icon_bag_alt" />
-                          </a>
-                        </li>
-                      </ul>
-                    </div>
-                    <div className="product__item__text">
-                      <h6>
-                        <a href="#">Furry hooded parka</a>
-                      </h6>
-                      <div className="rating">
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
-                        <i className="fa fa-star" />
+                {products.map((product, i) => (
+                  <div className="col-lg-4 col-md-6">
+                    <div className="product__item">
+                      <div
+                        className="product__item__pic set-bg"
+                        data-setbg="img/shop/shop-1.jpg"
+                      >
+                        <div className="label new">New</div>
+                        <ul className="product__hover">
+                          <li>
+                            <a
+                              href="img/shop/shop-1.jpg"
+                              className="image-popup"
+                            >
+                              <span className="arrow_expand" />
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span className="icon_heart_alt" />
+                            </a>
+                          </li>
+                          <li>
+                            <a href="#">
+                              <span
+                                onClick={(e) => addToCart(product._id, 1)}
+                                className="icon_bag_alt"
+                              />
+                            </a>
+                          </li>
+                        </ul>
                       </div>
-                      <div className="product__price">$ 59.0</div>
+                      <div className="product__item__text">
+                        <h6>
+                          <a href="#">Furry hooded parka</a>
+                        </h6>
+                        <div className="rating">
+                          <i className="fa fa-star" />
+                          <i className="fa fa-star" />
+                          <i className="fa fa-star" />
+                          <i className="fa fa-star" />
+                          <i className="fa fa-star" />
+                        </div>
+                        <div className="product__price">$ 59.0</div>
+                      </div>
                     </div>
                   </div>
-                </div>
+                ))}
                 <div className="col-lg-4 col-md-6">
                   <div className="product__item">
                     <div

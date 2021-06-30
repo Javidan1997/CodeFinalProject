@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
+import "../App.css";
 
 function Navbar(props) {
   return (
@@ -115,8 +116,24 @@ function Navbar(props) {
             <div className="col-lg-3">
               <div className="header__right">
                 <div className="header__right__auth">
-                  <a href="#">Login</a>
-                  <a href="#">Register</a>
+                  <a
+                    class={`nav-item  ${
+                      props.location.pathname === "/login" ? "active" : ""
+                    }`}
+                  >
+                    <Link class="nav-link" to="/login">
+                      Login
+                    </Link>
+                  </a>
+                  <a
+                    class={`nav-item  ${
+                      props.location.pathname === "/reg" ? "active" : ""
+                    }`}
+                  >
+                    <Link class="nav-link" to="/reg">
+                      Reg
+                    </Link>
+                  </a>
                 </div>
                 <ul className="header__right__widget">
                   <li>
